@@ -1,0 +1,86 @@
+1.- Mostrar las cinco primeras filas de cada tabla cargada
+ - SELECT * FROM feature LIMIT 5
+ - SELECT * FROM sales LIMIT 5
+ - SELECT * FROM stores LIMIT 5
+
+2.- Contar el número de filas de cada tabla
+ - SELECT COUNT(*) as feature FROM feature
+ - SELECT COUNT(*) as sales FROM sales
+ - SELECT COUNT(*) as stores FROM stores
+
+3.- El rango (máximo y mínimo) de cada variable numérica
+ feature
+  - SELECT MIN(Store), MAX(Store) FROM feature
+  - SELECT MIN(Temperature), MAX(Temperature) FROM feature
+  - SELECT MIN(Fuel_Price), MAX(Fuel_Price) FROM feature
+  - SELECT MIN(CPI), MAX(CPI) FROM feature
+  - SELECT MIN(Unemployment), MAX(Unemployment) FROM feature
+
+ sales
+  - SELECT MIN(Store), MAX(Store) FROM sales
+  - SELECT MIN(Dept), MAX(Dept) FROM sales
+  - SELECT MIN(Weekly_Sales), MAX(Weekly_Sales) FROM sales
+  - SELECT MIN(Store), MAX(Store) FROM stores
+  - SELECT MIN(Size), MAX(Size) FROM stores
+
+4.- Estudiar las diferentes categorías de las principales variables categóricas y el número de filas correspondientes a cada categoría.
+  sales 
+   - SELECT IsHoliday, COUNT(*) as CountValues  FROM sales GROUP BY IsHoliday
+
+  feature
+   - SELECT IsHoliday, COUNT(*) as CountValues  FROM feature GROUP BY IsHoliday
+  
+  stores
+   - SELECT Type, COUNT(*) as CountValues  FROM stores GROUP BY Type
+
+5.- Buscar valores inexistentes o anómalos 
+ valores inexistentes
+  feature
+   - SELECT COUNT(Store) as NotNull, SUM(CASE WHEN Store IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN Store = 'NA' then 1 else 0 end) as NACount FROM feature;
+   - SELECT COUNT(Date) as NotNull, SUM(CASE WHEN Date IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN Date = 'NA' then 1 else 0 end) as NACount FROM feature;
+   - SELECT COUNT(Temperature) as NotNull, SUM(CASE WHEN Temperature IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN Temperature = 'NA' then 1 else 0 end) as NACount FROM feature;
+   - SELECT COUNT(Fuel_Price) as NotNull, SUM(CASE WHEN Fuel_Price IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN Fuel_Price = 'NA' then 1 else 0 end) as NACount FROM feature;
+   - SELECT COUNT(MarkDown1) as NotNull, SUM(CASE WHEN MarkDown1 IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN MarkDown1 = 'NA' then 1 else 0 end) as NACount FROM feature;
+   - SELECT COUNT(MarkDown2) as NotNull, SUM(CASE WHEN MarkDown2 IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN MarkDown2 = 'NA' then 1 else 0 end) as NACount FROM feature;
+   - SELECT COUNT(MarkDown3) as NotNull, SUM(CASE WHEN MarkDown3 IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN MarkDown3 = 'NA' then 1 else 0 end) as NACount FROM feature;
+   - SELECT COUNT(MarkDown4) as NotNull, SUM(CASE WHEN MarkDown4 IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN MarkDown4 = 'NA' then 1 else 0 end) as NACount FROM feature;
+   - SELECT COUNT(MarkDown5) as NotNull, SUM(CASE WHEN MarkDown5 IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN MarkDown5 = 'NA' then 1 else 0 end) as NACount FROM feature;
+   - SELECT COUNT(CPI) as NotNull, SUM(CASE WHEN CPI IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN CPI = 'NA' then 1 else 0 end) as NACount FROM feature;
+   - SELECT COUNT(Unemployment) as NotNull, SUM(CASE WHEN Unemployment IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN Unemployment = 'NA' then 1 else 0 end) as NACount FROM feature;
+   - SELECT COUNT(IsHoliday) as NotNull, SUM(CASE WHEN IsHoliday IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN IsHoliday = 'NA' then 1 else 0 end) as NACount FROM feature;
+ 
+  sales
+   - SELECT COUNT(Store) as NotNull, SUM(CASE WHEN Store IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN Store = 'NA' then 1 else 0 end) as NACount FROM sales;
+   - SELECT COUNT(Dept) as NotNull, SUM(CASE WHEN Dept IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN Dept = 'NA' then 1 else 0 end) as NACount FROM sales;
+   - SELECT COUNT(Date) as NotNull, SUM(CASE WHEN Date IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN Date = 'NA' then 1 else 0 end) as NACount FROM sales;
+   - SELECT COUNT(Weekly_Sales) as NotNull, SUM(CASE WHEN Weekly_Sales IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN Weekly_Sales = 'NA' then 1 else 0 end) as NACount FROM sales;
+   - SELECT COUNT(IsHoliday) as NotNull, SUM(CASE WHEN IsHoliday IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN IsHoliday = 'NA' then 1 else 0 end) as NACount FROM sales;
+
+  stores
+   - SELECT COUNT(Store) as NotNull, SUM(CASE WHEN Store IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN Store = 'NA' then 1 else 0 end) as NACount FROM stores;
+   - SELECT COUNT(Type) as NotNull, SUM(CASE WHEN Type IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN Type = 'NA' then 1 else 0 end) as NACount FROM stores;
+   - SELECT COUNT(Size) as NotNull, SUM(CASE WHEN Size IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN Size = 'NA' then 1 else 0 end) as NACount FROM stores;
+
+Anomalos   
+ Feature: Temperature (Al no especificar la procedencia de los datos, en este caso se van a tomar como datos anomalos una temperatura menor a 0 grados y no superior a 30 grados )
+  - SELECT COUNT(*) FROM feature WHERE Temperature < 0 OR Temperature > 30;
+
+ sales: Weekly_Sales (No es posible que exista ventas en negativo)
+  - SELECT COUNT(*) FROM sales WHERE Weekly_Sales < 0;
+
+6.- Realizar alguna operación join 
+ - SELECT stores.Type, feature.IsHoliday, sales.Date, sales.Dept, sales.Weekly_Sales FROM stores INNER JOIN feature ON stores.Store = feature.Store INNER JOIN sales ON feature.Store = sales.Store WHERE Weekly_Sales > 0
+
+7.- Ejercicio
+ Ventas en cada tipo de tienda por años
+
+ - SELECT Year, Type, SUM(Weekly_Sales) AS Tota_Sale_Year, MAX(Weekly_Sales) AS Higher_sales, MIN(Weekly_Sales) AS Lower_Sales, AVG(Weekly_Sales) AS Average_Sales
+   FROM data_report GROUP BY Type, Year ORDER BY Year, Type  ASC;
+
+ Ventas por mes 
+ - SELECT Year, Month, SUM(Weekly_Sales) AS Tota_Sale_Year, MAX(Weekly_Sales) AS Higher_sales, MIN(Weekly_Sales) AS Lower_Sales, AVG(Weekly_Sales) AS Average_Sales
+ FROM data_report GROUP BY Month, Year ORDER BY Year, Month  ASC;
+ 
+ Ventas por tipo, mes y año
+ - SELECT Year, Type, Month, SUM(Weekly_Sales) AS Tota_Sale_Year, MAX(Weekly_Sales) AS Higher_sales, MIN(Weekly_Sales) AS Lower_Sales, AVG(Weekly_Sales) AS Average_Sales
+ FROM data_report GROUP BY Month, Year, Type ORDER BY Year, Month, Type  ASC;

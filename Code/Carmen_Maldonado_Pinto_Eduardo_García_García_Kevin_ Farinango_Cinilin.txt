@@ -10,25 +10,27 @@
 
 3.- El rango (máximo y mínimo) de cada variable numérica
  feature
-  - SELECT MIN(Store), MAX(Store) FROM feature
-  - SELECT MIN(Temperature), MAX(Temperature) FROM feature
-  - SELECT MIN(Fuel_Price), MAX(Fuel_Price) FROM feature
-  - SELECT MIN(CPI), MAX(CPI) FROM feature
-  - SELECT MIN(Unemployment), MAX(Unemployment) FROM feature
+  - SELECT MIN(Store) as Min_Store, MAX(case when Store='NA' then null else cast( Store as double) end ) as Max_Store FROM feature
+  - SELECT MIN(Temperature) as Min_Temperature, MAX(case when Temperature='NA' then null else cast( Temperature as double) end ) as Max_Temperature FROM feature
+  - SELECT MIN(Fuel_Price) as Min_Fuel_Price, MAX(case when Fuel_Price='NA' then null else cast( Fuel_Price as double) end ) as Max_Fuel_Price FROM feature
+  - SELECT MIN(CPI) as Min_CPI, MAX(case when CPI='NA' then null else cast( CPI as double) end ) as Max_CPI FROM feature
+  - SELECT MIN(Unemployment) as Min_Unemployment, MAX(case when Unemployment='NA' then null else cast( Unemployment as double) end ) as Max_Unemployment FROM feature
 
  sales
-  - SELECT MIN(Store), MAX(Store) FROM sales
-  - SELECT MIN(Dept), MAX(Dept) FROM sales
-  - SELECT MIN(Weekly_Sales), MAX(Weekly_Sales) FROM sales
-  - SELECT MIN(Store), MAX(Store) FROM stores
-  - SELECT MIN(Size), MAX(Size) FROM stores
+  - SELECT MIN(Store) as Min_Store, MAX(case when Store='NA' then null else cast( Store as double) end ) as Max_Store FROM sales
+  - SELECT MIN(Dept) as Min_Dept, MAX(case when Dept='NA' then null else cast( Dept as double) end ) as Max_Dept FROM sales
+  - SELECT MIN(Weekly_Sales) as Min_Weekly_Sales, MAX(case when Weekly_Sales='NA' then null else cast( Weekly_Sales as double) end ) as Max_Weekly_Sales FROM sales
+
+stores
+  - SELECT MIN(Store) as Min_Store, MAX(case when Store='NA' then null else cast( Store as double) end ) as Max_Store FROM stores
+  - SELECT MIN(Size) as Min_Size, MAX(case when Size='NA' then null else cast( Size as double) end ) as Max_Size FROM stores
 
 4.- Estudiar las diferentes categorías de las principales variables categóricas y el número de filas correspondientes a cada categoría.
-  sales 
-   - SELECT IsHoliday, COUNT(*) as CountValues  FROM sales GROUP BY IsHoliday
-
-  feature
+  feature 
    - SELECT IsHoliday, COUNT(*) as CountValues  FROM feature GROUP BY IsHoliday
+
+  sales
+   - SELECT IsHoliday, COUNT(*) as CountValues  FROM sales GROUP BY IsHoliday
   
   stores
    - SELECT Type, COUNT(*) as CountValues  FROM stores GROUP BY Type
@@ -36,46 +38,61 @@
 5.- Buscar valores inexistentes o anómalos 
  valores inexistentes
   feature
-   - SELECT COUNT(Store) as NotNull, SUM(CASE WHEN Store IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN Store = 'NA' then 1 else 0 end) as NACount FROM feature;
-   - SELECT COUNT(Date) as NotNull, SUM(CASE WHEN Date IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN Date = 'NA' then 1 else 0 end) as NACount FROM feature;
-   - SELECT COUNT(Temperature) as NotNull, SUM(CASE WHEN Temperature IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN Temperature = 'NA' then 1 else 0 end) as NACount FROM feature;
-   - SELECT COUNT(Fuel_Price) as NotNull, SUM(CASE WHEN Fuel_Price IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN Fuel_Price = 'NA' then 1 else 0 end) as NACount FROM feature;
-   - SELECT COUNT(MarkDown1) as NotNull, SUM(CASE WHEN MarkDown1 IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN MarkDown1 = 'NA' then 1 else 0 end) as NACount FROM feature;
-   - SELECT COUNT(MarkDown2) as NotNull, SUM(CASE WHEN MarkDown2 IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN MarkDown2 = 'NA' then 1 else 0 end) as NACount FROM feature;
-   - SELECT COUNT(MarkDown3) as NotNull, SUM(CASE WHEN MarkDown3 IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN MarkDown3 = 'NA' then 1 else 0 end) as NACount FROM feature;
-   - SELECT COUNT(MarkDown4) as NotNull, SUM(CASE WHEN MarkDown4 IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN MarkDown4 = 'NA' then 1 else 0 end) as NACount FROM feature;
-   - SELECT COUNT(MarkDown5) as NotNull, SUM(CASE WHEN MarkDown5 IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN MarkDown5 = 'NA' then 1 else 0 end) as NACount FROM feature;
-   - SELECT COUNT(CPI) as NotNull, SUM(CASE WHEN CPI IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN CPI = 'NA' then 1 else 0 end) as NACount FROM feature;
-   - SELECT COUNT(Unemployment) as NotNull, SUM(CASE WHEN Unemployment IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN Unemployment = 'NA' then 1 else 0 end) as NACount FROM feature;
-   - SELECT COUNT(IsHoliday) as NotNull, SUM(CASE WHEN IsHoliday IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN IsHoliday = 'NA' then 1 else 0 end) as NACount FROM feature;
+   - SELECT COUNT(Store) as Filas_Totales, SUM(CASE WHEN Store IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN Store = 'NA' then 1 else 0 end) as NACount FROM feature;
+   - SELECT COUNT(Date) as Filas_Totales, SUM(CASE WHEN Date IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN Date = 'NA' then 1 else 0 end) as NACount FROM feature;
+   - SELECT COUNT(Temperature) as Filas_Totales, SUM(CASE WHEN Temperature IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN Temperature = 'NA' then 1 else 0 end) as NACount FROM feature;
+   - SELECT COUNT(Fuel_Price) as Filas_Totales, SUM(CASE WHEN Fuel_Price IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN Fuel_Price = 'NA' then 1 else 0 end) as NACount FROM feature;
+   - SELECT COUNT(MarkDown1) as Filas_Totales, SUM(CASE WHEN MarkDown1 IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN MarkDown1 = 'NA' then 1 else 0 end) as NACount FROM feature;
+   - SELECT COUNT(MarkDown2) as Filas_Totales, SUM(CASE WHEN MarkDown2 IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN MarkDown2 = 'NA' then 1 else 0 end) as NACount FROM feature;
+   - SELECT COUNT(MarkDown3) as Filas_Totales, SUM(CASE WHEN MarkDown3 IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN MarkDown3 = 'NA' then 1 else 0 end) as NACount FROM feature;
+   - SELECT COUNT(MarkDown4) as Filas_Totales, SUM(CASE WHEN MarkDown4 IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN MarkDown4 = 'NA' then 1 else 0 end) as NACount FROM feature;
+   - SELECT COUNT(MarkDown5) as Filas_Totales, SUM(CASE WHEN MarkDown5 IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN MarkDown5 = 'NA' then 1 else 0 end) as NACount FROM feature;
+   - SELECT COUNT(CPI) as Filas_Totales, SUM(CASE WHEN CPI IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN CPI = 'NA' then 1 else 0 end) as NACount FROM feature;
+   - SELECT COUNT(Unemployment) as Filas_Totales, SUM(CASE WHEN Unemployment IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN Unemployment = 'NA' then 1 else 0 end) as NACount FROM feature;
+   - SELECT COUNT(IsHoliday) as Filas_Totales, SUM(CASE WHEN IsHoliday IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN IsHoliday = 'NA' then 1 else 0 end) as NACount FROM feature;
  
   sales
-   - SELECT COUNT(Store) as NotNull, SUM(CASE WHEN Store IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN Store = 'NA' then 1 else 0 end) as NACount FROM sales;
-   - SELECT COUNT(Dept) as NotNull, SUM(CASE WHEN Dept IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN Dept = 'NA' then 1 else 0 end) as NACount FROM sales;
-   - SELECT COUNT(Date) as NotNull, SUM(CASE WHEN Date IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN Date = 'NA' then 1 else 0 end) as NACount FROM sales;
-   - SELECT COUNT(Weekly_Sales) as NotNull, SUM(CASE WHEN Weekly_Sales IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN Weekly_Sales = 'NA' then 1 else 0 end) as NACount FROM sales;
-   - SELECT COUNT(IsHoliday) as NotNull, SUM(CASE WHEN IsHoliday IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN IsHoliday = 'NA' then 1 else 0 end) as NACount FROM sales;
+   - SELECT COUNT(Store) as Filas_Totales, SUM(CASE WHEN Store IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN Store = 'NA' then 1 else 0 end) as NACount FROM sales;
+   - SELECT COUNT(Dept) as Filas_Totales, SUM(CASE WHEN Dept IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN Dept = 'NA' then 1 else 0 end) as NACount FROM sales;
+   - SELECT COUNT(Date) as Filas_Totales, SUM(CASE WHEN Date IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN Date = 'NA' then 1 else 0 end) as NACount FROM sales;
+   - SELECT COUNT(Weekly_Sales) as Filas_Totales, SUM(CASE WHEN Weekly_Sales IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN Weekly_Sales = 'NA' then 1 else 0 end) as NACount FROM sales;
+   - SELECT COUNT(IsHoliday) as Filas_Totales, SUM(CASE WHEN IsHoliday IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN IsHoliday = 'NA' then 1 else 0 end) as NACount FROM sales;
 
   stores
-   - SELECT COUNT(Store) as NotNull, SUM(CASE WHEN Store IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN Store = 'NA' then 1 else 0 end) as NACount FROM stores;
-   - SELECT COUNT(Type) as NotNull, SUM(CASE WHEN Type IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN Type = 'NA' then 1 else 0 end) as NACount FROM stores;
-   - SELECT COUNT(Size) as NotNull, SUM(CASE WHEN Size IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN Size = 'NA' then 1 else 0 end) as NACount FROM stores;
+   - SELECT COUNT(Store) as Filas_Totales, SUM(CASE WHEN Store IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN Store = 'NA' then 1 else 0 end) as NACount FROM stores;
+   - SELECT COUNT(Type) as Filas_Totales, SUM(CASE WHEN Type IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN Type = 'NA' then 1 else 0 end) as NACount FROM stores;
+   - SELECT COUNT(Size) as Filas_Totales, SUM(CASE WHEN Size IS NULL then 1 else 0 end) as NullCount, SUM(CASE WHEN Size = 'NA' then 1 else 0 end) as NACount FROM stores;
 
-Anomalos   
- Feature: Temperature (Al no especificar la procedencia de los datos, en este caso se van a tomar como datos anomalos una temperatura menor a 0 grados y no superior a 30 grados )
-  - SELECT COUNT(*) FROM feature WHERE Temperature < 0 OR Temperature > 30;
+Datos Anomalos   
+ Feature: Temperature (Al no especificar la procedencia de los datos, asumiremos que corresponden a una temperatura con grados Fahrenheit por lo cual los grados anomalos podrían ser los menores a 10 grados
+  - SELECT COUNT(*) as Cantidad_Datos_Anomalos FROM feature WHERE Temperature < 10;
 
  sales: Weekly_Sales (No es posible que exista ventas en negativo)
   - SELECT COUNT(*) FROM sales WHERE Weekly_Sales < 0;
 
-6.- Realizar alguna operación join 
- - SELECT stores.Type, feature.IsHoliday, sales.Date, sales.Dept, sales.Weekly_Sales FROM stores INNER JOIN feature ON stores.Store = feature.Store INNER JOIN sales ON feature.Store = sales.Store WHERE Weekly_Sales > 0
+6.-Operación con join entre las tablas stores, feature y sales 
+ - SELECT distinct 
+            stores.Type, 
+            feature.IsHoliday, 
+            sales.Date, 
+            sales.Dept, 
+            sales.Weekly_Sales 
+            FROM stores 
+            INNER JOIN feature 
+             ON stores.Store = feature.Store 
+            INNER JOIN sales 
+             ON feature.Store = sales.Store 
+            WHERE Weekly_Sales > 0
 
-7.- Ejercicio
+Se muestra la tabla obtenida
+ 
+ - SELECT * FROM data_report
+
+7.- Ejercicio de analisis
  Ventas en cada tipo de tienda por años
 
- - SELECT Year, Type, SUM(Weekly_Sales) AS Tota_Sale_Year, MAX(Weekly_Sales) AS Higher_sales, MIN(Weekly_Sales) AS Lower_Sales, AVG(Weekly_Sales) AS Average_Sales
-   FROM data_report GROUP BY Type, Year ORDER BY Year, Type  ASC;
+ - SELECT Year, Type,  SUM(Weekly_Sales)  AS Tota_Sale_Year, MAX(Weekly_Sales) AS Higher_sales, MIN(Weekly_Sales) AS Lower_Sales, AVG(Weekly_Sales) AS Average_Sales
+ FROM data_report GROUP BY Type, Year ORDER BY Year, Type  ASC;
 
  Ventas por mes 
  - SELECT Year, Month, SUM(Weekly_Sales) AS Tota_Sale_Year, MAX(Weekly_Sales) AS Higher_sales, MIN(Weekly_Sales) AS Lower_Sales, AVG(Weekly_Sales) AS Average_Sales

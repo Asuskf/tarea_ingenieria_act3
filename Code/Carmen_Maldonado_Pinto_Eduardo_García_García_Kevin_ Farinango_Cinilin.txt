@@ -71,8 +71,7 @@ Datos Anomalos
   - SELECT COUNT(*) FROM sales WHERE Weekly_Sales < 0;
 
 6.-Operación con join entre las tablas stores, feature y sales 
- - SELECT distinct 
-            stores.Type, 
+ - SELECT   stores.Type, 
             feature.IsHoliday, 
             sales.Date, 
             sales.Dept, 
@@ -82,6 +81,7 @@ Datos Anomalos
              ON stores.Store = feature.Store 
             INNER JOIN sales 
              ON feature.Store = sales.Store 
+             and feature.Date =sales.Date
             WHERE Weekly_Sales > 0
 
 Se muestra la tabla obtenida
